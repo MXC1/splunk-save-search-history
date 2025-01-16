@@ -17,7 +17,8 @@ chrome.runtime.sendMessage(
 
     response.forEach((entry) => {
       const li = document.createElement("li");
-      li.innerHTML = `[${entry.timestamp}]<br>${entry.input.replace(/\n/g, "<br>")}<br><br>`;
+      li.textContent = `[${entry.timestamp}]\n${entry.input}\n\n`;
+      li.innerHTML = li.innerHTML.replace(/\n/g, "<br>");
       historyList.appendChild(li);
     });
   }
