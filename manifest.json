@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "Text Field History Tracker",
+    "name": "Splunk Search History Tracker",
     "version": "1.0",
-    "description": "Records the history of user input for a specific text field on a given URL.",
+    "description": "Records the history of user input for searches on the Splunk Search and Reporting app.",
     "permissions": ["storage"],
     "host_permissions": ["https://nhsdigital.splunkcloud.com/en-GB/app/search/search*"],
     "background": {
