@@ -22,8 +22,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const key = "splunksave";
     chrome.storage.local.get([key], (result) => {
       let history = result[key] || [];
-      // Remove any previous entry with the same input (case and whitespace sensitive)
-      history = history.filter(entry => entry.input !== input);
+  // Remove any previous entry with the same input (case sensitive, whitespace insensitive)
+  const normalize = str => str.replace(/\s+/g, ' ').trim();
+  history = history.filter(entry => normalize(entry.input) !== normalize(input));
       history.push({ timestamp: formatTimestamp(new Date()), input });
       chrome.storage.local.set({ [key]: history }, () => {
         console.log("Input saved:", history);
