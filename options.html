@@ -4,17 +4,62 @@
   <title>Recorded Text Field Values</title>
   <style>
     body {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 14px;
+      font-family: "Splunk Platform Mono", Inconsolata, Consolas, "Droid Sans Mono", Monaco, "Courier New", Courier, monospace;
+      font-size: 15px;
+      background: #f4f6fa;
+      margin: 0;
+      padding: 0;
     }
-    #savedValues {
-      margin-top: 20px;
+    h1 {
+      margin-top: 24px;
+      color: #2d3a4a;
+      font-size: 1.5em;
+      letter-spacing: 0.5px;
     }
-    .value-item {
-      background: #f9f9f9;
-      border: 1px solid #ddd;
-      padding: 10px;
-      margin-bottom: 10px;
+    #history-list {
+      list-style: none;
+      padding: 0;
+      margin: 24px 0 0 0;
+      max-width: 700px;
+    }
+    .history-item {
+      border-radius: 7px;
+      border: 1px solid #e0e4ea;
+      margin-bottom: 12px;
+      padding: 14px 18px 10px 18px;
+      font-family: "Splunk Platform Mono", Inconsolata, Consolas, "Droid Sans Mono", Monaco, "Courier New", Courier, monospace;
+      font-size: 1em;
+      transition: box-shadow 0.2s;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+      word-break: break-word;
+    }
+    .history-item.even {
+      background: #f9fafc;
+    }
+    .history-item.odd {
+      background: #eaf1fb;
+    }
+    .timestamp {
+      color: #6c7a89;
+      font-size: 0.93em;
+      font-weight: bold;
+      margin-bottom: 6px;
+      display: block;
+    }
+    #clear-history {
+      margin-top: 18px;
+      background: #2d7ff9;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 22px;
+      font-size: 1em;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+      transition: background 0.2s;
+    }
+    #clear-history:hover {
+      background: #1a5fc2;
     }
   </style>
 </head>

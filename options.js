@@ -15,10 +15,21 @@ chrome.runtime.sendMessage(
       console.log("No input history found.");
     }
 
-    response.forEach((entry) => {
+    response.forEach((entry, idx) => {
       const li = document.createElement("li");
-      li.textContent = `[${entry.timestamp}]\n${entry.input}\n\n`;
-      li.innerHTML = li.innerHTML.replace(/\n/g, "<br>");
+      li.className = `history-item ${idx % 2 === 0 ? 'even' : 'odd'}`;
+
+      // Timestamp
+      const ts = document.createElement("span");
+      ts.className = "timestamp";
+      ts.textContent = entry.timestamp;
+      li.appendChild(ts);
+
+      // Input (with line breaks)
+      const inputDiv = document.createElement("div");
+      inputDiv.innerHTML = entry.input.replace(/\n/g, "<br>");
+      li.appendChild(inputDiv);
+
       historyList.appendChild(li);
     });
   }
