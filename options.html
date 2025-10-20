@@ -3,6 +3,52 @@
 <head>
   <title>Recorded Text Field Values</title>
   <style>
+    #date-filter {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #eaf1fb;
+      border: 1px solid #d0d8e8;
+      border-radius: 7px;
+      padding: 12px 18px 10px 18px;
+      margin: 24px 0 18px 0;
+      max-width: 700px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+    #date-filter label {
+      color: #2d3a4a;
+      font-weight: 500;
+      font-size: 1em;
+      margin: 0;
+    }
+    #date-filter input[type="date"] {
+      font-family: inherit;
+      font-size: 1em;
+      padding: 4px 8px;
+      border: 1px solid #b5c6e0;
+      border-radius: 4px;
+      background: #fff;
+      color: #2d3a4a;
+      outline: none;
+      transition: border 0.2s;
+    }
+    #date-filter input[type="date"]:focus {
+      border: 1.5px solid #2d7ff9;
+    }
+    #date-filter button {
+      background: #2d7ff9;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 6px 16px;
+      font-size: 1em;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+      transition: background 0.2s;
+    }
+    #date-filter button:hover {
+      background: #1a5fc2;
+    }
     body {
       font-family: "Splunk Platform Mono", Inconsolata, Consolas, "Droid Sans Mono", Monaco, "Courier New", Courier, monospace;
       font-size: 15px;
@@ -67,11 +113,22 @@
   <h1>Recorded Text Field Values</h1>
   <p>Below are the inputs recorded by the extension:</p>
   
-  <!-- Add the history-list element -->
-  <ul id="history-list"></ul>
   
   <!-- Add the Clear button -->
   <button id="clear-history">Clear</button>
+  
+  <!-- Date filter controls -->
+  <div id="date-filter">
+    <label for="start-date">From:</label>
+    <input type="date" id="start-date">
+    <label for="end-date">To:</label>
+    <input type="date" id="end-date">
+    <button id="apply-filter">Filter</button>
+    <button id="clear-filter">Reset</button>
+  </div>
+
+  <!-- Add the history-list element -->
+  <ul id="history-list"></ul>
   
   <script src="options.js"></script>
 </body>
