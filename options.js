@@ -71,12 +71,16 @@ chrome.runtime.sendMessage(
 );
 
 // Date filter event listeners
-document.getElementById("apply-filter").addEventListener("click", updateFilters);
+// Remove apply-filter button event listener (button removed)
 document.getElementById("clear-filter").addEventListener("click", () => {
   document.getElementById("start-date").value = "";
   document.getElementById("end-date").value = "";
   updateFilters();
 });
+
+// Live date filtering as user changes From/To fields
+document.getElementById("start-date").addEventListener("input", updateFilters);
+document.getElementById("end-date").addEventListener("input", updateFilters);
 
 // Search bar event listener (live filtering)
 document.getElementById("search-bar").addEventListener("input", updateFilters);
