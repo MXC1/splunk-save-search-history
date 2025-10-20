@@ -3,6 +3,9 @@
 <head>
   <title>Recorded Text Field Values</title>
   <style>
+    .options-container {
+      margin-left: 24px;
+    }
     #date-filter {
       display: flex;
       align-items: center;
@@ -137,33 +140,33 @@
   </style>
 </head>
 <body>
-  <h1>Recorded Text Field Values</h1>
-  <p>Below are the inputs recorded by the extension:</p>
+  <div class="options-container">
+    <h1>Recorded Text Field Values</h1>
+    <p>Below are the inputs recorded by the extension:</p>
 
-  <!-- Search bar -->
-  <div id="search-bar-container">
-    <label for="search-bar" style="color:#2d3a4a;font-weight:500;">Search:</label>
-    <input type="text" id="search-bar" placeholder="Type to filter queries...">
+    <!-- Search bar -->
+    <div id="search-bar-container">
+      <label for="search-bar" style="color:#2d3a4a;font-weight:500;">Search:</label>
+      <input type="text" id="search-bar" placeholder="Type to filter queries...">
+    </div>
+
+    <!-- Date filter controls -->
+    <div id="date-filter">
+      <label for="start-date">From:</label>
+      <input type="date" id="start-date">
+      <label for="end-date">To:</label>
+      <input type="date" id="end-date">
+      <button id="apply-filter">Filter</button>
+      <button id="clear-filter">Reset</button>
+    </div>
+
+    <!-- Add the history-list element -->
+    <ul id="history-list"></ul>
+
+    <!-- Add the Clear button -->
+    <button id="clear-history">Clear</button>
   </div>
-  
-  
-  
-  <!-- Date filter controls -->
-  <div id="date-filter">
-    <label for="start-date">From:</label>
-    <input type="date" id="start-date">
-    <label for="end-date">To:</label>
-    <input type="date" id="end-date">
-    <button id="apply-filter">Filter</button>
-    <button id="clear-filter">Reset</button>
-  </div>
-  
-  <!-- Add the history-list element -->
-  <ul id="history-list"></ul>
-  
-  <!-- Add the Clear button -->
-  <button id="clear-history">Clear</button>
-  
+
   <script src="options.js"></script>
 </body>
 </html>
