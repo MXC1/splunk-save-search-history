@@ -3,13 +3,17 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 function formatTimestamp(date) {
+  // Format: Mon Oct 20 2025 18:44
   const pad = (num) => String(num).padStart(2, '0');
-  const year = date.getFullYear();
-  const month = pad(date.getMonth() + 1);
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const dayName = days[date.getDay()];
+  const monthName = months[date.getMonth()];
   const day = pad(date.getDate());
+  const year = date.getFullYear();
   const hours = pad(date.getHours());
   const minutes = pad(date.getMinutes());
-  return `${year}-${month}-${day} ${hours}:${minutes}`;
+  return `${dayName} ${monthName} ${day} ${year} ${hours}:${minutes}`;
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
