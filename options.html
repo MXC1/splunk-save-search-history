@@ -1,3 +1,30 @@
+    #search-bar-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f9fafc;
+      border: 1px solid #e0e4ea;
+      border-radius: 7px;
+      padding: 10px 18px 8px 18px;
+      margin: 18px 0 0 0;
+      max-width: 700px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+    #search-bar {
+      flex: 1;
+      font-family: inherit;
+      font-size: 1em;
+      padding: 6px 12px;
+      border: 1px solid #b5c6e0;
+      border-radius: 4px;
+      background: #fff;
+      color: #2d3a4a;
+      outline: none;
+      transition: border 0.2s;
+    }
+    #search-bar:focus {
+      border: 1.5px solid #2d7ff9;
+    }
 <!DOCTYPE html>
 <html>
 <head>
@@ -112,6 +139,12 @@
 <body>
   <h1>Recorded Text Field Values</h1>
   <p>Below are the inputs recorded by the extension:</p>
+
+  <!-- Search bar -->
+  <div id="search-bar-container">
+    <label for="search-bar" style="color:#2d3a4a;font-weight:500;">Search:</label>
+    <input type="text" id="search-bar" placeholder="Type to filter queries...">
+  </div>
   
   
   <!-- Add the Clear button -->

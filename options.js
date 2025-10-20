@@ -3,14 +3,38 @@ const url = "https://nhsdigital.splunkcloud.com/en-GB/app/search/search";
 const selector = ".ace_text-input";
 
 
+
 let allHistory = [];
+
+function getFilteredHistory() {
+  const startDate = document.getElementById("start-date").value;
+  const endDate = document.getElementById("end-date").value;
+  const searchTerm = document.getElementById("search-bar").value.trim().toLowerCase();
+
+  // Parse dates
+  const start = startDate ? new Date(startDate + "T00:00:00") : null;
+  const end = endDate ? new Date(endDate + "T23:59:59") : null;
+
+  return allHistory.filter(entry => {
+    // Date filter
+    let entryDate = new Date(entry.timestamp);
+    if (isNaN(entryDate)) {
+      entryDate = new Date(entry.timestamp.replace(/\s/, 'T'));
+    }
+    if (start && entryDate < start) return false;
+    if (end && entryDate > end) return false;
+    // Search filter
+    if (searchTerm && !entry.input.toLowerCase().includes(searchTerm)) return false;
+    return true;
+  });
+}
 
 function renderHistory(filteredHistory) {
   const historyList = document.getElementById("history-list");
   historyList.innerHTML = "";
   if (filteredHistory.length === 0) {
     const li = document.createElement("li");
-    li.textContent = "No input history found for the selected date range.";
+    li.textContent = "No input history found for the selected filters.";
     li.style.color = "#888";
     li.style.fontStyle = "italic";
     historyList.appendChild(li);
@@ -32,46 +56,30 @@ function renderHistory(filteredHistory) {
   });
 }
 
-function filterHistoryByDate() {
-  const startDate = document.getElementById("start-date").value;
-  const endDate = document.getElementById("end-date").value;
-  if (!startDate && !endDate) {
-    renderHistory(allHistory);
-    return;
-  }
-  // Parse dates
-  const start = startDate ? new Date(startDate + "T00:00:00") : null;
-  const end = endDate ? new Date(endDate + "T23:59:59") : null;
-  const filtered = allHistory.filter(entry => {
-    // Try to parse entry.timestamp as ISO or fallback
-    let entryDate = new Date(entry.timestamp);
-    if (isNaN(entryDate)) {
-      // Try to parse as local string (fallback)
-      entryDate = new Date(entry.timestamp.replace(/\s/, 'T'));
-    }
-    if (start && entryDate < start) return false;
-    if (end && entryDate > end) return false;
-    return true;
-  });
-  renderHistory(filtered);
+function updateFilters() {
+  renderHistory(getFilteredHistory());
 }
+
 
 chrome.runtime.sendMessage(
   { type: "getInputHistory", url, selector },
   (response) => {
     console.log("Received response:", response);
     allHistory = response || [];
-    renderHistory(allHistory);
+    renderHistory(getFilteredHistory());
   }
 );
 
 // Date filter event listeners
-document.getElementById("apply-filter").addEventListener("click", filterHistoryByDate);
+document.getElementById("apply-filter").addEventListener("click", updateFilters);
 document.getElementById("clear-filter").addEventListener("click", () => {
   document.getElementById("start-date").value = "";
   document.getElementById("end-date").value = "";
-  renderHistory(allHistory);
+  updateFilters();
 });
+
+// Search bar event listener (live filtering)
+document.getElementById("search-bar").addEventListener("input", updateFilters);
 
 // Add event listener for the Clear button
 document.getElementById("clear-history").addEventListener("click", () => {
