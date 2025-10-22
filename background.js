@@ -26,13 +26,20 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const key = "splunksave";
     chrome.storage.local.get([key], (result) => {
       let history = result[key] || [];
-  // Remove any previous entry with the same input (case sensitive, whitespace insensitive)
-  const normalize = str => str.replace(/\s+/g, ' ').trim();
-  history = history.filter(entry => normalize(entry.input) !== normalize(input));
+      // Remove any previous entry with the same input (case sensitive, whitespace insensitive)
+      const normalize = str => str.replace(/\s+/g, ' ').trim();
+      history = history.filter(entry => normalize(entry.input) !== normalize(input));
       history.push({ timestamp: formatTimestamp(new Date()), input });
+
+      // Save to local storage
       chrome.storage.local.set({ [key]: history }, () => {
-        console.log("Input saved:", history);
-        sendResponse({ status: "success" });
+        console.log("Input saved locally:", history);
+
+        // Save to sync storage (cloud)
+        chrome.storage.sync.set({ [key]: history }, () => {
+          console.log("Input saved to cloud:", history);
+          sendResponse({ status: "success" });
+        });
       });
     });
     return true; // Indicate that sendResponse will be called asynchronously
@@ -40,9 +47,19 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const { url, selector } = message;
     const key = "splunksave";
     console.log("Retrieving input history for key:", key);
-    chrome.storage.local.get([key], (result) => {
-      console.log("Retrieved input history:", result[key]);
-      sendResponse(result[key] || []);
+
+    // Retrieve from sync storage (cloud)
+    chrome.storage.sync.get([key], (result) => {
+      if (result[key]) {
+        console.log("Retrieved input history from cloud:", result[key]);
+        sendResponse(result[key]);
+      } else {
+        // Fallback to local storage if cloud data is unavailable
+        chrome.storage.local.get([key], (localResult) => {
+          console.log("Retrieved input history from local storage:", localResult[key]);
+          sendResponse(localResult[key] || []);
+        });
+      }
     });
     return true; // Indicate that sendResponse will be called asynchronously
   }
